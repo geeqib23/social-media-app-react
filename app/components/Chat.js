@@ -5,9 +5,10 @@ import StateContext from "../StateContext"
 import io, { Socket } from "socket.io-client"
 import { BrowserRouter, Link, Router } from "react-router-dom"
 
-const socket = io("http://localhost:8080")
+// const socket = io("http://localhost:8080") we load it below so we can shut it on log out and start it at login(performance save)
 function Chat(props) {
   //We dont use CSS transition group(as in Search), we want Chat to be mounted always, to receive data
+  const socket = useRef(null) //not useSTate coz me dont wanna modify shit
   const chatField = useRef(null) //useRef saves us from using query selectors
   const chatLog = useRef(null)
   const appState = useContext(StateContext)
@@ -27,7 +28,7 @@ function Chat(props) {
   function handleSubmit(e) {
     e.preventDefault()
     //sending message to server
-    socket.emit("chatFromBrowser", { message: state.textField, token: appState.user.token })
+    socket.current.emit("chatFromBrowser", { message: state.textField, token: appState.user.token })
     //add message to state collection of message
     setState((draft) => {
       draft.chatMessage.push({ message: state.textField, username: appState.user.username, avatar: appState.user.avatar })
@@ -42,11 +43,15 @@ function Chat(props) {
   }, [appState.showChat])
 
   useEffect(() => {
-    socket.on("chatFromServer", (response) => {
+    socket.current = io(process.env.BACKENDURL || "https://social-media-app-react.herokuapp.com")
+
+    socket.current.on("chatFromServer", (response) => {
       setState((draft) => {
         draft.chatMessage.push(response)
       })
     })
+
+    return () => socket.current.disconnect() //disconnect on logout
   }, [])
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 
 function Footer() {
   return (
@@ -19,13 +19,13 @@ function Footer() {
       </p>
       <p className="m-0">
         Copyright &copy; 2020{" "}
-        <a href="/" className="text-muted">
-          ComplexApp
-        </a>
-        . All rights reserved.
+        <span href="/" className="text-muted">
+          ReactApp | Implemented by <a href="https://github.com/geeqib23">Aqib | </a>
+        </span>
+        All rights reserved.
       </p>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer
