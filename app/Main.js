@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react"
+import React, { useState, useReducer, useEffect, Suspense } from "react"
 import ReactDOM from "react-dom"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 Axios.defaults.baseURL = "http://localhost:8080"
@@ -13,15 +13,18 @@ import Footer from "./components/Footer"
 import About from "./components/About"
 import Terms from "./components/Terms"
 import Home from "./components/Home"
-import CreatePost from "./components/CreatePost"
-import ViewSinglePost from "./components/ViewSinglePost"
+const CreatePost = React.lazy(() => import("./components/CreatePost"))
+// import CreatePost from "./components/CreatePost"
 import Axios from "axios"
 import FlashMessage from "./components/FlashMessage"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import Search from "./components/Search"
-import Chat from "./components/Chat"
+// import Chat from "./components/Chat"
+import LoadingDots from "./components/LoadingDots"
+const Chat = React.lazy(() => import("./components/Chat"))
+const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
 
 function Main() {
   // const [loginStatus, setLoginStatus] = useState(Boolean(localStorage.getItem("token")));
@@ -99,37 +102,39 @@ function Main() {
           {/* <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} /> */}
           <Header />
           <FlashMessage />
-          <Switch>
-            <Route path="/profile/:username">
-              <Profile />
-            </Route>
-            <Route path="/" exact>
-              {state.loginStatus ? <Home /> : <HomeGuest />}
-            </Route>
-            <Route path="/about-us">
-              <About />
-            </Route>
-            <Route path="/terms">
-              <Terms />
-            </Route>
-            <Route path="/create-post">
-              <CreatePost />
-            </Route>
-            <Route path="/post/:id" exact>
-              <ViewSinglePost />
-            </Route>
-            <Route path="/post/:id/edit" exact>
-              <EditPost />
-            </Route>
-            {/* at the end */}
-            <Route>
-              <NotFound />
-            </Route>
-          </Switch>
+          <Suspense fallback={<LoadingDots />}>
+            <Switch>
+              <Route path="/profile/:username">
+                <Profile />
+              </Route>
+              <Route path="/" exact>
+                {state.loginStatus ? <Home /> : <HomeGuest />}
+              </Route>
+              <Route path="/about-us">
+                <About />
+              </Route>
+              <Route path="/terms">
+                <Terms />
+              </Route>
+              <Route path="/create-post">
+                <CreatePost />
+              </Route>
+              <Route path="/post/:id" exact>
+                <ViewSinglePost />
+              </Route>
+              <Route path="/post/:id/edit" exact>
+                <EditPost />
+              </Route>
+              {/* at the end */}
+              <Route>
+                <NotFound />
+              </Route>
+            </Switch>
+          </Suspense>
           {state.showSearch == true ? <Search /> : undefined}
           <Footer />
         </BrowserRouter>
-        <Chat />
+        <Suspense fallback="">{state.loginStatus && <Chat />}</Suspense>
       </StateContext.Provider>
     </DispatchContext.Provider>
   )
