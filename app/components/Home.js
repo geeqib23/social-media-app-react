@@ -33,9 +33,6 @@ function Home() {
   if (state.isLoading == true) return <LoadingDots />
   return (
     <Page title="Home">
-      <div className="text-center">
-        <strong>POSTS FROM ONES YOU FOLLOW</strong>
-      </div>
       {state.feed.length == 0 && (
         <div>
           <h2 className="text-center">
@@ -46,7 +43,14 @@ function Home() {
         </div>
       )}
 
-      {state.feed.length != 0 && <Post posts={state.feed} />}
+      {state.feed.length != 0 && (
+        <>
+          <div className="text-center">
+            <h2>POSTS FROM ONES YOU FOLLOW</h2>
+          </div>
+          <Post posts={state.feed} />
+        </>
+      )}
     </Page>
   )
 }
