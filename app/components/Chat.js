@@ -91,22 +91,24 @@ function Chat(props) {
             )
           } else {
             return (
-              <BrowserRouter>
-                {/* dont konw why Link not working without it :| */}
-                <div key={index} className="chat-other">
+              <div key={index} className="chat-other">
+                {/* dont know why Link not working without it :|, still url changes but page doesn't */}
+                <BrowserRouter>
                   <Link to={`/profile/${message.username}`}>
                     <img className="avatar-tiny" src={message.avatar} />
                   </Link>
-                  <div className="chat-message">
-                    <div className="chat-message-inner">
+                </BrowserRouter>
+                <div className="chat-message">
+                  <div className="chat-message-inner">
+                    <BrowserRouter>
                       <Link to={`/profile/${message.username}`}>
                         <strong>{message.username}: </strong>
                       </Link>
-                      {message.message}
-                    </div>
+                    </BrowserRouter>
+                    {message.message}
                   </div>
                 </div>
-              </BrowserRouter>
+              </div>
             )
           }
         })}

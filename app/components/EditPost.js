@@ -101,7 +101,7 @@ function EditPost(props) {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${state.id}`, { cancelToken: ourRequest.token })
-        console.log(response.data)
+        // console.log(response.data)
         if (response.data) dispatch({ type: "Fetched", value: response.data })
         else dispatch({ type: "Not Found" })
 

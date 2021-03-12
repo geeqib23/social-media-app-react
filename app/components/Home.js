@@ -17,7 +17,7 @@ function Home() {
     async function fetchData() {
       try {
         const response = await Axios.post(`/getHomeFeed`, { token: appState.user.token }, { cancelToken: ourRequest.token })
-        console.log(response.data)
+        // console.log(response.data)
         setState((draft) => {
           draft.isLoading = false
           draft.feed = response.data

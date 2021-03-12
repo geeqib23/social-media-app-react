@@ -1,61 +1,61 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, useParams, withRouter } from "react-router-dom";
-import Page from "./Page";
-import Axios from "axios";
-import ReactMarkdown from "react-markdown";
-import ReactTooltip from "react-tooltip";
-import LoadingDots from "./LoadingDots";
-import NotFound from "./NotFound";
-import StateContext from "../StateContext";
-import DispatchContext from "../DispatchContext";
+import React, { useEffect, useState, useContext } from "react"
+import { Link, useParams, withRouter } from "react-router-dom"
+import Page from "./Page"
+import Axios from "axios"
+import ReactMarkdown from "react-markdown"
+import ReactTooltip from "react-tooltip"
+import LoadingDots from "./LoadingDots"
+import NotFound from "./NotFound"
+import StateContext from "../StateContext"
+import DispatchContext from "../DispatchContext"
 
 function ViewSinglePost(props) {
-  const [isLoading, setLoading] = useState(true);
-  const { id } = useParams();
-  const appState = useContext(StateContext);
-  const appDispatch = useContext(DispatchContext);
+  const [isLoading, setLoading] = useState(true)
+  const { id } = useParams()
+  const appState = useContext(StateContext)
+  const appDispatch = useContext(DispatchContext)
 
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState([])
 
   useEffect(() => {
-    const ourRequest = Axios.CancelToken.source();
+    const ourRequest = Axios.CancelToken.source()
     async function fetchPost() {
       try {
-        const response = await Axios.get(`/post/${id}`, { CancelToken: ourRequest.token });
-        console.log(response.data);
-        setPost(response.data);
-        setLoading(false);
+        const response = await Axios.get(`/post/${id}`, { CancelToken: ourRequest.token })
+        // console.log(response.data);
+        setPost(response.data)
+        setLoading(false)
       } catch (e) {
-        console.log("THERE WAS A PROBLEM");
+        console.log("THERE WAS A PROBLEM")
       }
     }
-    fetchPost();
-    return () => ourRequest.cancel();
-  }, []);
+    fetchPost()
+    return () => ourRequest.cancel()
+  }, [])
 
-  const date = new Date(post.createdDate);
-  const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  const date = new Date(post.createdDate)
+  const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 
   const isOwner = () => {
-    return post.author.username == appState.user.username;
-  };
+    return post.author.username == appState.user.username
+  }
 
   const deleteHandler = async () => {
     try {
-      const response = await Axios.delete(`post/${id}`, { data: { token: appState.user.token } });
-      console.log(response);
+      const response = await Axios.delete(`post/${id}`, { data: { token: appState.user.token } })
+      console.log(response)
       if (response.data == "Success") {
-        appDispatch({ type: "flashMessage", value: "Post has been deleted successfully" });
-        props.history.push(`/profile/${appState.user.username}`);
+        appDispatch({ type: "flashMessage", value: "Post has been deleted successfully" })
+        props.history.push(`/profile/${appState.user.username}`)
       }
     } catch (e) {
-      console.log("Something went wrong");
+      console.log("Something went wrong")
     }
-  };
+  }
 
-  if (!isLoading && !post) return <NotFound />;
+  if (!isLoading && !post) return <NotFound />
 
-  if (isLoading) return <LoadingDots />;
+  if (isLoading) return <LoadingDots />
 
   return (
     <Page title={`Post-${post.title}`}>
@@ -88,7 +88,7 @@ function ViewSinglePost(props) {
         </div>
       </div>
     </Page>
-  );
+  )
 }
 
-export default withRouter(ViewSinglePost);
+export default withRouter(ViewSinglePost)

@@ -14,21 +14,21 @@ function Search() {
     requestCount: 0,
   })
 
-  useEffect(() => {
-    const ourRequest = Axios.CancelToken.source()
-    if (state.requestCount) {
-      async function fetchResults() {
-        try {
-          const posts = await Axios.post("/search", { searchTerm: state.searchTerm }, { CancelToken: ourRequest.token })
-          console.log(posts)
-        } catch (e) {
-          console.log(e, "error")
-        }
-      }
-      fetchResults()
-    }
-    return () => ourRequest.cancel()
-  }, [state.requestCount])
+  // useEffect(() => {
+  //   const ourRequest = Axios.CancelToken.source()
+  //   if (state.requestCount) {
+  //     async function fetchResults() {
+  //       try {
+  //         const posts = await Axios.post("/search", { searchTerm: state.searchTerm }, { CancelToken: ourRequest.token })
+  //         console.log(posts)
+  //       } catch (e) {
+  //         console.log(e, "error")
+  //       }
+  //     }
+  //     fetchResults()
+  //   }
+  //   return () => ourRequest.cancel()
+  // }, [state.requestCount])
 
   useEffect(() => {
     const delay = setTimeout(() => {
