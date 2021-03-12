@@ -15,10 +15,13 @@ function HeaderLoggedOut(props) {
         password,
       })
       if (response.data) {
-        console.log(response.data)
+        // console.log(response.data)
         // localStorage.setItem("status", "true");
         dispatch({ type: "login", data: response.data })
-      } else console.log("INCORRECT USERNAME/PASS")
+      } else {
+        console.log("INCORRECT USERNAME/PASS")
+        dispatch({ type: "flashMessage", value: "Incorrect Username/password" })
+      }
     } catch (e) {
       console.log("There was a problem")
     }
