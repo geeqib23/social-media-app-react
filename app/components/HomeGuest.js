@@ -34,8 +34,8 @@ function HomeGuest() {
     <Page title="Home" wide={true}>
       <div className="row align-items-center">
         <div className="col-lg-7 py-3 py-md-5">
-          <h1 className="display-3">Remember Writing?</h1>
-          <p className="lead text-muted">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
+          <h1 className="display-3">Remember writing?</h1>
+          <p className="lead text-muted">This app is for you. From poetry to shitposting, you can write your heart out here.</p>
         </div>
         <div className="col-lg-5 pl-lg-5 pb-3 py-lg-5">
           <form onSubmit={handleSubmit}>
@@ -58,7 +58,7 @@ function HomeGuest() {
               <input id="password-register" name="password" className="form-control" type="password" placeholder="Create a password" onChange={(e) => setpass(e.target.value)} />
             </div>
             <button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">
-              Sign up for ComplexApp
+              Sign up
             </button>
           </form>
         </div>
