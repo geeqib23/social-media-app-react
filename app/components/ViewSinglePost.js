@@ -84,7 +84,8 @@ function ViewSinglePost(props) {
         </p>
 
         <div className="body-content">
-          <ReactMarkdown source={post.body} allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} />
+          <ReactMarkdown source={post.body} />
+          {/* allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} */}
         </div>
       </div>
     </Page>
